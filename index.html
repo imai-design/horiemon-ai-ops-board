@@ -4,26 +4,45 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>ホリエモンAI学校 全業務ダッシュボード</title>
+<title>今井 全プロジェクト 進捗管理ダッシュボード</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
   body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif; }
   .badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 9999px; font-size: 11px; font-weight: 600; }
   .pulse-dot { display: inline-block; width: 8px; height: 8px; border-radius: 9999px; background: #10b981; box-shadow: 0 0 0 0 rgba(16,185,129,.7); animation: pulse 2s infinite; margin-right: 6px; }
   @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(16,185,129,.7); } 70% { box-shadow: 0 0 0 8px rgba(16,185,129,0); } 100% { box-shadow: 0 0 0 0 rgba(16,185,129,0); } }
+  .status-active { background: #d1fae5; color: #065f46; }
+  .status-running { background: #dbeafe; color: #1e40af; }
+  .status-in_progress { background: #dbeafe; color: #1e40af; }
+  .status-waiting_external { background: #fef3c7; color: #92400e; }
+  .status-concept { background: #ede9fe; color: #5b21b6; }
+  .status-shipped { background: #d1fae5; color: #065f46; }
+  .status-live { background: #d1fae5; color: #065f46; }
+  .status-countdown { background: #fee2e2; color: #991b1b; }
+  .prio-0 { border-left-color: #dc2626; }
+  .prio-1 { border-left-color: #f59e0b; }
+  .prio-2 { border-left-color: #3b82f6; }
+  .prio-3 { border-left-color: #6366f1; }
+  .prio-4 { border-left-color: #94a3b8; }
 </style>
 </head>
 <body class="bg-slate-50 text-slate-800">
 
 <header class="bg-slate-900 text-white">
-  <div class="max-w-6xl mx-auto px-6 py-6 flex items-center justify-between flex-wrap gap-4">
-    <div>
-      <h1 class="text-2xl font-bold tracking-tight">ホリエモンAI学校 全業務ダッシュボード</h1>
-      <p class="text-slate-400 text-sm mt-1">Slack横断 自動進捗トラッカー / 毎日朝に自動更新</p>
+  <div class="max-w-6xl mx-auto px-6 py-6">
+    <div class="flex items-center justify-between flex-wrap gap-4">
+      <div>
+        <h1 class="text-2xl font-bold tracking-tight">今井 全プロジェクト 進捗管理</h1>
+        <p class="text-slate-400 text-sm mt-1">毎日 朝 08:07 JST 自動更新 / そなたの全プロジェクトを一望</p>
+      </div>
+      <div class="flex items-center text-sm">
+        <span class="pulse-dot"></span>
+        <span>最終更新: <strong>2026-05-24 14:50 JST</strong></span>
+      </div>
     </div>
-    <div class="flex items-center text-sm">
-      <span class="pulse-dot"></span>
-      <span>最終更新: <strong id="last-updated">2026-05-24 14:38 JST</strong></span>
+    <div class="mt-4 px-4 py-3 bg-slate-800 rounded-lg text-sm">
+      <span class="text-amber-400 font-semibold">🏁 北極星: </span>
+      <span class="text-slate-200">タイ移住 2026-06 までに、ローンチ→集客→自動回転を全プロジェクトで確立する</span>
     </div>
   </div>
 </header>
@@ -33,297 +52,412 @@
   <!-- KPI summary -->
   <section class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
     <div class="bg-white rounded-xl shadow-sm p-4">
-      <div class="text-xs text-slate-500 mb-1">監視チャンネル</div>
-      <div class="text-2xl font-bold">12</div>
-      <div class="text-xs text-slate-400 mt-1">4ワークスペース横断</div>
+      <div class="text-xs text-slate-500 mb-1">アクティブプロジェクト</div>
+      <div class="text-2xl font-bold">11</div>
     </div>
     <div class="bg-white rounded-xl shadow-sm p-4">
-      <div class="text-xs text-slate-500 mb-1">未対応案件</div>
-      <div class="text-2xl font-bold text-amber-600">14</div>
-      <div class="text-xs text-slate-400 mt-1">うち期限超過 3件</div>
+      <div class="text-xs text-slate-500 mb-1">収益直結</div>
+      <div class="text-2xl font-bold text-emerald-600">2</div>
+      <div class="text-xs text-slate-400 mt-1">コミュニティ / クライアント</div>
     </div>
     <div class="bg-white rounded-xl shadow-sm p-4">
-      <div class="text-xs text-slate-500 mb-1">期限超過</div>
-      <div class="text-2xl font-bold text-rose-600">3</div>
-      <div class="text-xs text-slate-400 mt-1">本日対応推奨</div>
+      <div class="text-xs text-slate-500 mb-1">公開済</div>
+      <div class="text-2xl font-bold text-blue-600">6</div>
+      <div class="text-xs text-slate-400 mt-1">ダッシュボード/サイト/SNS</div>
     </div>
     <div class="bg-white rounded-xl shadow-sm p-4">
-      <div class="text-xs text-slate-500 mb-1">今週の勝ち</div>
-      <div class="text-2xl font-bold text-emerald-600">3</div>
-      <div class="text-xs text-slate-400 mt-1">契約・確定案件</div>
+      <div class="text-xs text-slate-500 mb-1">外部待ち</div>
+      <div class="text-2xl font-bold text-amber-600">2</div>
+      <div class="text-xs text-slate-400 mt-1">中川さん / Stripe鍵</div>
     </div>
     <div class="bg-white rounded-xl shadow-sm p-4">
-      <div class="text-xs text-slate-500 mb-1">初回未スキャン</div>
-      <div class="text-2xl font-bold text-slate-400">9</div>
-      <div class="text-xs text-slate-400 mt-1">次回cronで取得</div>
+      <div class="text-xs text-slate-500 mb-1">移住まで</div>
+      <div class="text-2xl font-bold text-rose-600">37日</div>
+      <div class="text-xs text-slate-400 mt-1">2026-06-30 目処</div>
     </div>
   </section>
 
-  <!-- Overdue alerts -->
+  <!-- Active projects -->
   <section class="mb-8">
-    <h2 class="text-lg font-bold mb-3 flex items-center gap-2">
-      <span class="bg-rose-100 text-rose-700 px-2 py-0.5 rounded text-xs">URGENT</span>
-      期限超過アラート
-    </h2>
-    <div class="bg-rose-50 border border-rose-200 rounded-xl p-4 space-y-3">
-      <div class="flex justify-between items-start">
-        <div>
-          <div class="font-semibold text-rose-900">ミックス様 (事例のプロ)</div>
-          <div class="text-sm text-rose-700">初稿フィードバック待ち / 締切 2026-05-15 / ボール: ミックス様</div>
-        </div>
-        <span class="badge bg-rose-200 text-rose-800">+9日 超過</span>
-      </div>
-      <div class="flex justify-between items-start">
-        <div>
-          <div class="font-semibold text-rose-900">さわらび会様 (事例のプロ)</div>
-          <div class="text-sm text-rose-700">初稿フィードバック待ち / 締切 2026-05-14 / ボール: さわらび会様</div>
-        </div>
-        <span class="badge bg-rose-200 text-rose-800">+10日 超過</span>
-      </div>
-      <div class="flex justify-between items-start">
-        <div>
-          <div class="font-semibold text-rose-900">OneStream中川さん API確認</div>
-          <div class="text-sm text-rose-700">5/23 DM送信から24時間経過 / ボール: 中川直樹さん</div>
-        </div>
-        <span class="badge bg-amber-200 text-amber-800">フォロー判断</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- Channel cards -->
-  <section class="mb-8">
-    <h2 class="text-lg font-bold mb-3">チャンネル別 案件サマリ <span class="text-sm text-slate-400 font-normal">（高優先度）</span></h2>
+    <h2 class="text-lg font-bold mb-3">プロジェクト一覧</h2>
     <div class="space-y-4">
 
-      <!-- 事例のプロ -->
-      <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-        <div class="bg-slate-100 px-5 py-3 flex justify-between items-center">
+      <!-- P0: タイ移住 -->
+      <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 prio-0">
+        <div class="flex justify-between items-start flex-wrap gap-2">
           <div>
-            <div class="font-bold">#ホリエモンai学校株式会社_事例のプロ</div>
-            <div class="text-xs text-slate-500">suiseihq · 事例制作・記事PR納品 · 担当: 大島空良さん / 佐藤真希さん</div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="badge bg-rose-100 text-rose-700">P0 メタ目標</span>
+              <span class="badge status-countdown">countdown</span>
+            </div>
+            <div class="font-bold text-lg">タイ移住 (2026-06)</div>
+            <div class="text-sm text-slate-600 mt-1">全プロジェクトのローンチ詰め最終局面 / 締切: 2026-06-30</div>
           </div>
-          <span class="badge bg-emerald-100 text-emerald-700">draft-mode-active</span>
         </div>
-        <div class="divide-y divide-slate-100">
-          <div class="px-5 py-3 flex justify-between items-start gap-3">
-            <div class="flex-1">
-              <div class="font-semibold">マナビバ様</div>
-              <div class="text-sm text-slate-600">原稿確認＋写真要否確認 / ボール: 佐藤真希さん</div>
-              <div class="text-xs text-slate-400 mt-1">5/19 大島さん→佐藤さん依頼。原稿が戻り、数値部分の修正反映済</div>
-            </div>
-            <span class="badge bg-amber-100 text-amber-700">waiting</span>
-          </div>
-          <div class="px-5 py-3 flex justify-between items-start gap-3">
-            <div class="flex-1">
-              <div class="font-semibold">マシュマロの樹様</div>
-              <div class="text-sm text-slate-600">インタビュー日程調整 / ボール: 佐藤真希さん</div>
-              <div class="text-xs text-slate-400 mt-1">Microsoft環境での業務改善案件・Spir調整中</div>
-            </div>
-            <span class="badge bg-blue-100 text-blue-700">in_progress</span>
-          </div>
-          <div class="px-5 py-3 flex justify-between items-start gap-3">
-            <div class="flex-1">
-              <div class="font-semibold">ミックス様</div>
-              <div class="text-sm text-slate-600">初稿フィードバック待ち / ボール: ミックス様 / 締切: 2026-05-15</div>
-              <div class="text-xs text-slate-400 mt-1">5/8発信の初稿、ミックス様返信待ち</div>
-            </div>
-            <span class="badge bg-rose-100 text-rose-700">overdue</span>
-          </div>
-          <div class="px-5 py-3 flex justify-between items-start gap-3">
-            <div class="flex-1">
-              <div class="font-semibold">さわらび会様</div>
-              <div class="text-sm text-slate-600">初稿フィードバック待ち / ボール: さわらび会様 / 締切: 2026-05-14</div>
-              <div class="text-xs text-slate-400 mt-1">5/7発信の初稿、さわらび会返信待ち</div>
-            </div>
-            <span class="badge bg-rose-100 text-rose-700">overdue</span>
-          </div>
-          <div class="px-5 py-3 flex justify-between items-start gap-3">
-            <div class="flex-1">
-              <div class="font-semibold">Sky Creation様</div>
-              <div class="text-sm text-slate-600">確定済3社+新規見繕い1社 / ボール: 佐藤真希さん</div>
-            </div>
-            <span class="badge bg-blue-100 text-blue-700">in_progress</span>
-          </div>
+        <div class="mt-3 text-sm">
+          <div class="text-slate-500">ボール:</div>
+          <div>そなた (移住準備) / 余 (収益自動回転の確立)</div>
+        </div>
+        <div class="mt-3 text-sm">
+          <div class="text-slate-500">次のアクション:</div>
+          <ul class="list-disc list-inside text-slate-700">
+            <li>コミュニティLP本番化</li>
+            <li>X投稿30本予約配信</li>
+          </ul>
         </div>
       </div>
 
-      <!-- OneStream -->
-      <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-        <div class="bg-slate-100 px-5 py-3 flex justify-between items-center">
+      <!-- P1: コミュニティ -->
+      <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 prio-1">
+        <div class="flex justify-between items-start flex-wrap gap-2">
           <div>
-            <div class="font-bold">#ホリエモンai学校様_onestream</div>
-            <div class="text-xs text-slate-500">rootteams · OneStream配信案件 · 担当: 澤居宏紀さん / 中川直樹さん</div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="badge bg-amber-100 text-amber-700">P1 収益柱</span>
+              <span class="badge status-in_progress">in_progress</span>
+            </div>
+            <div class="font-bold text-lg">AIエージェント月20万コミュニティ</div>
+            <div class="text-sm text-slate-600 mt-1">LP本番投入 → Stripe Checkout本番化 → X投稿30本予約配信</div>
           </div>
-          <span class="badge bg-blue-100 text-blue-700">watch</span>
+          <a href="https://ryoseiworld.co.jp/community/" class="text-xs text-blue-600 underline">LP（予定URL） ↗</a>
         </div>
-        <div class="divide-y divide-slate-100">
-          <div class="px-5 py-3 flex justify-between items-start gap-3">
-            <div class="flex-1">
-              <div class="font-semibold">社員ワンストアクセス＆疑問抽出</div>
-              <div class="text-sm text-slate-600">ボール: OneStream社員(全員) / 締切: 2026-05-29</div>
-              <div class="text-xs text-slate-400 mt-1">5/21依頼。来週木曜までに疑問・要望集約</div>
-            </div>
-            <span class="badge bg-blue-100 text-blue-700">in_progress</span>
-          </div>
-          <div class="px-5 py-3 flex justify-between items-start gap-3">
-            <div class="flex-1">
-              <div class="font-semibold">動画アップロードエラー対応</div>
-              <div class="text-sm text-slate-600">ボール: OneStream開発側</div>
-              <div class="text-xs text-slate-400 mt-1">5/21 エラースクショ共有済、確認依頼中</div>
-            </div>
-            <span class="badge bg-amber-100 text-amber-700">waiting</span>
-          </div>
-          <div class="px-5 py-3 flex justify-between items-start gap-3">
-            <div class="flex-1">
-              <div class="font-semibold">OneStream Ver.2 実装</div>
-              <div class="text-sm text-slate-600">ボール: OneStream開発側 / 締切: 2026-06-30</div>
-              <div class="text-xs text-slate-400 mt-1">Ver.2再すり合わせ調整中(5/13)</div>
-            </div>
-            <span class="badge bg-blue-100 text-blue-700">in_progress</span>
-          </div>
-          <div class="px-5 py-3 flex justify-between items-start gap-3">
-            <div class="flex-1">
-              <div class="font-semibold">24時間無料体験 ThanksPage/リダイレクト</div>
-              <div class="text-sm text-slate-600">ボール: OneStream開発側</div>
-              <div class="text-xs text-slate-400 mt-1">4/30 ロードマップ反映要</div>
-            </div>
-            <span class="badge bg-amber-100 text-amber-700">waiting</span>
-          </div>
-          <div class="px-5 py-3 flex justify-between items-start gap-3">
-            <div class="flex-1">
-              <div class="font-semibold">GAS雛形 API仕様 3点確認</div>
-              <div class="text-sm text-slate-600">ボール: 中川直樹さん</div>
-              <div class="text-xs text-slate-400 mt-1">5/23 DM送信済 - OneStream API/transcript duration/グループ一覧</div>
-            </div>
-            <span class="badge bg-rose-100 text-rose-700">フォロー判断</span>
-          </div>
+        <div class="mt-3 text-sm">
+          <div class="text-slate-500">ボール:</div>
+          <div>今井 (LP) / Stripe鍵待ち / X配信窓口要決定</div>
+        </div>
+        <div class="mt-3 text-sm">
+          <div class="text-slate-500">次のアクション:</div>
+          <ul class="list-disc list-inside text-slate-700">
+            <li>ryoseiworld.co.jp/community/ LP本番デプロイ</li>
+            <li>Stripe本番管理者招待 or APIキー受領</li>
+            <li>X投稿30本の予約配信窓口決定</li>
+          </ul>
+        </div>
+        <div class="mt-3 text-xs">
+          <span class="text-slate-500">ブロッカー:</span>
+          <span class="badge bg-rose-100 text-rose-700 ml-1">Stripe本番鍵</span>
+          <span class="badge bg-rose-100 text-rose-700 ml-1">X投稿窓口</span>
         </div>
       </div>
 
-      <!-- FC加盟店本部 -->
-      <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-        <div class="bg-slate-100 px-5 py-3 flex justify-between items-center">
+      <!-- P1: ホリエモンAI学校 -->
+      <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 prio-1">
+        <div class="flex justify-between items-start flex-wrap gap-2">
           <div>
-            <div class="font-bold">#p-fc-ai学校</div>
-            <div class="text-xs text-slate-500">selfworkjp · FC加盟運営本体 · 担当: 荒木社長 / 飯泉さん / 奥田さん / 大島さん</div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="badge bg-amber-100 text-amber-700">P1 自動化</span>
+              <span class="badge status-active">active</span>
+            </div>
+            <div class="font-bold text-lg">ホリエモンAI学校 全業務自動化</div>
+            <div class="text-sm text-slate-600 mt-1">Slack横断スキャナ稼働中。毎日朝8:07自動更新</div>
           </div>
-          <span class="badge bg-blue-100 text-blue-700">watch</span>
+          <a href="#horiemon-detail" class="text-xs text-blue-600 underline">詳細セクション ↓</a>
         </div>
-        <div class="divide-y divide-slate-100">
-          <div class="px-5 py-3 flex justify-between items-start gap-3">
-            <div class="flex-1">
-              <div class="font-semibold">IPT校 次回MTG日程確定</div>
-              <div class="text-sm text-slate-600">ボール: 荒木社長</div>
-              <div class="text-xs text-slate-400 mt-1">5/21社長欠席→次回調整中</div>
-            </div>
-            <span class="badge bg-amber-100 text-amber-700">waiting</span>
+        <div class="mt-3 grid grid-cols-4 gap-2 text-sm">
+          <div class="bg-slate-50 rounded p-2 text-center">
+            <div class="text-xs text-slate-500">監視ch</div>
+            <div class="font-bold">12</div>
           </div>
-          <div class="px-5 py-3 flex justify-between items-start gap-3">
-            <div class="flex-1">
-              <div class="font-semibold">AP Partners校 X命名規則対応</div>
-              <div class="text-sm text-slate-600">ボール: 伊藤大介さん</div>
-              <div class="text-xs text-slate-400 mt-1">@soreai_saiyo新設、命名対応要確認</div>
-            </div>
-            <span class="badge bg-blue-100 text-blue-700">in_progress</span>
+          <div class="bg-slate-50 rounded p-2 text-center">
+            <div class="text-xs text-slate-500">未対応</div>
+            <div class="font-bold text-amber-600">14</div>
           </div>
-          <div class="px-5 py-3 flex justify-between items-start gap-3">
-            <div class="flex-1">
-              <div class="font-semibold">AP Partners校 講義動画 着手の壁/対話設計の壁 対策</div>
-              <div class="text-sm text-slate-600">ボール: 大島空良さん→講義制作チーム</div>
-              <div class="text-xs text-slate-400 mt-1">5/22 受講企業の声を集約中</div>
-            </div>
-            <span class="badge bg-blue-100 text-blue-700">in_progress</span>
+          <div class="bg-slate-50 rounded p-2 text-center">
+            <div class="text-xs text-slate-500">期限超過</div>
+            <div class="font-bold text-rose-600">3</div>
           </div>
-          <div class="px-5 py-3 flex justify-between items-start gap-3">
-            <div class="flex-1">
-              <div class="font-semibold">GKLINE校(新宿) 商工会議所ワークショップ開拓+GitHubコパイロット講座</div>
-              <div class="text-sm text-slate-600">ボール: 須佐恵マリーさん</div>
-              <div class="text-xs text-slate-400 mt-1">展示会設置物発送完了、リポスト毎日に変更済</div>
-            </div>
-            <span class="badge bg-blue-100 text-blue-700">in_progress</span>
+          <div class="bg-slate-50 rounded p-2 text-center">
+            <div class="text-xs text-slate-500">今週の勝ち</div>
+            <div class="font-bold text-emerald-600">3</div>
           </div>
-          <div class="px-5 py-3 flex justify-between items-start gap-3">
-            <div class="flex-1">
-              <div class="font-semibold">クリエイターズアカデミー校 LP構築+Xアカウント</div>
-              <div class="text-sm text-slate-600">ボール: 市川拓弘さん</div>
-              <div class="text-xs text-slate-400 mt-1">ターゲットを中小飲食/美容サロンオーナーに変更</div>
-            </div>
-            <span class="badge bg-blue-100 text-blue-700">in_progress</span>
-          </div>
+        </div>
+        <div class="mt-3 text-sm">
+          <div class="text-slate-500">次のアクション:</div>
+          <ul class="list-disc list-inside text-slate-700">
+            <li>残り9chの初回スキャン補完</li>
+            <li>ドラフト保存→人間承認のワークフロー定着</li>
+          </ul>
         </div>
       </div>
 
+      <!-- P2: OneStream -->
+      <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 prio-2">
+        <div class="flex justify-between items-start flex-wrap gap-2">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="badge bg-blue-100 text-blue-700">P2 クライアント</span>
+              <span class="badge status-waiting_external">waiting_external</span>
+            </div>
+            <div class="font-bold text-lg">OneStreamシート自動化</div>
+            <div class="text-sm text-slate-600 mt-1">GAS雛形7本 → 中川さんに API確認3点送付済、返答待ち</div>
+          </div>
+          <a href="https://gist.github.com/imai-design/c77ab460c9b4196d8144c73953f75bfa" class="text-xs text-blue-600 underline">Gist ↗</a>
+        </div>
+        <div class="mt-3 text-sm">
+          <div class="text-slate-500">ボール: 中川直樹さん (3点API回答)</div>
+        </div>
+        <div class="mt-3 text-sm">
+          <div class="text-slate-500">次のアクション:</div>
+          <ul class="list-disc list-inside text-slate-700">
+            <li>API実エンドポイント受領後 Config.gs の ENDPOINTS 修正</li>
+            <li>実データ接続テスト</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- P2: ryoseiworld -->
+      <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 prio-2">
+        <div class="flex justify-between items-start flex-wrap gap-2">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="badge bg-blue-100 text-blue-700">P2 プロダクト</span>
+              <span class="badge status-live">live</span>
+            </div>
+            <div class="font-bold text-lg">RYOSEIWORLD合同会社 公式サイト</div>
+            <div class="text-sm text-slate-600 mt-1">公開済、コミュニティLPを追加予定</div>
+          </div>
+          <a href="https://ryoseiworld.co.jp" class="text-xs text-blue-600 underline">ryoseiworld.co.jp ↗</a>
+        </div>
+        <div class="mt-3 text-sm">
+          <div class="text-slate-500">次のアクション:</div>
+          <ul class="list-disc list-inside text-slate-700">
+            <li>/community/ ページ追加</li>
+            <li>Stripe Checkout接続</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- P3: Suno -->
+      <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 prio-3">
+        <div class="flex justify-between items-start flex-wrap gap-2">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="badge bg-indigo-100 text-indigo-700">P3 コンテンツ</span>
+              <span class="badge status-running">running</span>
+            </div>
+            <div class="font-bold text-lg">Suno楽曲 毎時自動投稿</div>
+            <div class="text-sm text-slate-600 mt-1">毎時ACTIVE。Crosswalk Heat Mirage生成済、Neon Errand を YouTube Shorts / SoundCloud に投稿成功</div>
+          </div>
+        </div>
+        <div class="mt-3 text-sm flex flex-wrap gap-2">
+          <a href="https://youtube.com/shorts/L6Bg7PBxQfQ" class="text-xs text-blue-600 underline">YouTube Shorts ↗</a>
+          <a href="https://soundcloud.com/tugndnlaczqu/neon-errand" class="text-xs text-blue-600 underline">SoundCloud ↗</a>
+          <a href="https://suno.com/song/a0d1d875-889e-46f3-ba6e-b0bfad7f222e" class="text-xs text-blue-600 underline">Suno元音源 ↗</a>
+        </div>
+        <div class="mt-3 text-sm">
+          <div class="text-slate-500">次のアクション:</div>
+          <ul class="list-disc list-inside text-slate-700">
+            <li>Suno生成後の安定したダウンロード経路を確立</li>
+            <li>TikTokアカウント完成 → 投稿経路復帰</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- P3: Woven -->
+      <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 prio-3">
+        <div class="flex justify-between items-start flex-wrap gap-2">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="badge bg-indigo-100 text-indigo-700">P3 コンテンツ</span>
+              <span class="badge status-in_progress">in_progress</span>
+            </div>
+            <div class="font-bold text-lg">Woven講演 (4h03m) 文字起こし → 公開HTML</div>
+            <div class="text-sm text-slate-600 mt-1">whisper(medium/日本語) バックグラウンド処理中。完了見込み 約3時間</div>
+          </div>
+        </div>
+        <div class="mt-3 text-sm">
+          <div class="text-slate-500">次のアクション:</div>
+          <ul class="list-disc list-inside text-slate-700">
+            <li>whisper完了確認</li>
+            <li>章立て+各章要約+全文HTML生成</li>
+            <li>公開URL化</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- P3: 無料大学 -->
+      <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 prio-3">
+        <div class="flex justify-between items-start flex-wrap gap-2">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="badge bg-indigo-100 text-indigo-700">P3 構想</span>
+              <span class="badge status-concept">concept</span>
+            </div>
+            <div class="font-bold text-lg">無料大学</div>
+            <div class="text-sm text-slate-600 mt-1">Vault Projects/ にコンセプト保管中</div>
+          </div>
+        </div>
+        <div class="mt-3 text-sm">
+          <div class="text-slate-500">ボール: そなた (要件出し)</div>
+        </div>
+      </div>
+
+      <!-- P3: Claude Kit -->
+      <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 prio-3">
+        <div class="flex justify-between items-start flex-wrap gap-2">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="badge bg-indigo-100 text-indigo-700">P3 プロダクト</span>
+              <span class="badge status-shipped">shipped</span>
+            </div>
+            <div class="font-bold text-lg">Claude Kit (Mac/Win一括インストーラ)</div>
+            <div class="text-sm text-slate-600 mt-1">Tauri GUI公開済。Git/VSCode/Claude/Claude Code をボタン1つで</div>
+          </div>
+          <a href="https://github.com/imai-design/claude-kit" class="text-xs text-blue-600 underline">Repo ↗</a>
+        </div>
+      </div>
+
+      <!-- P4: Camp -->
+      <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 prio-4">
+        <div class="flex justify-between items-start flex-wrap gap-2">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="badge bg-slate-200 text-slate-700">P4 アーカイブ</span>
+              <span class="badge status-shipped">shipped</span>
+            </div>
+            <div class="font-bold text-lg">Claude入門1日キャンプ ハブ</div>
+            <div class="text-sm text-slate-600 mt-1">参加者用ハブページ公開済 (2026-05-11開催)</div>
+          </div>
+          <a href="https://imai-design.github.io/claude-camp-hub/" class="text-xs text-blue-600 underline">Hub ↗</a>
+        </div>
+      </div>
+
+      <!-- P4: Prompt Launcher -->
+      <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 prio-4">
+        <div class="flex justify-between items-start flex-wrap gap-2">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="badge bg-slate-200 text-slate-700">P4 ツール</span>
+              <span class="badge status-shipped">shipped</span>
+            </div>
+            <div class="font-bold text-lg">Claudeプロンプトランチャー</div>
+            <div class="text-sm text-slate-600 mt-1">~/Cowork/20_claude_prompt_launcher/ で稼働。やりたいこと→3案→Terminal起動</div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
-  <!-- Wins -->
-  <section class="mb-8">
-    <h2 class="text-lg font-bold mb-3 flex items-center gap-2">
-      <span class="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded text-xs">WINS</span>
-      今週の勝ち
-    </h2>
-    <div class="grid md:grid-cols-3 gap-4">
-      <div class="bg-white rounded-xl shadow-sm p-4 border-l-4 border-emerald-500">
-        <div class="font-semibold">LIFEFUND校</div>
-        <div class="text-sm text-slate-600 mt-1">大岡成光建築事務所 6名 7/1スタート決定</div>
-        <div class="text-xs text-slate-400 mt-2">2026-05-22</div>
+  <!-- Horiemon AI School Detail -->
+  <section id="horiemon-detail" class="mb-8 pt-4">
+    <div class="bg-slate-100 rounded-xl p-5">
+      <h2 class="text-lg font-bold mb-1">📂 ホリエモンAI学校 詳細セクション</h2>
+      <p class="text-sm text-slate-600 mb-4">Slack横断12chの案件・期限超過・担当ボールを毎日朝8:07に自動更新</p>
+
+      <!-- Overdue alerts -->
+      <h3 class="font-bold mb-2 flex items-center gap-2">
+        <span class="bg-rose-100 text-rose-700 px-2 py-0.5 rounded text-xs">URGENT</span>
+        期限超過アラート
+      </h3>
+      <div class="bg-rose-50 border border-rose-200 rounded-lg p-4 space-y-3 mb-4">
+        <div class="flex justify-between items-start">
+          <div>
+            <div class="font-semibold text-rose-900">ミックス様 (事例のプロ)</div>
+            <div class="text-sm text-rose-700">初稿フィードバック待ち / 締切 2026-05-15 / ボール: ミックス様</div>
+          </div>
+          <span class="badge bg-rose-200 text-rose-800">+9日 超過</span>
+        </div>
+        <div class="flex justify-between items-start">
+          <div>
+            <div class="font-semibold text-rose-900">さわらび会様 (事例のプロ)</div>
+            <div class="text-sm text-rose-700">初稿フィードバック待ち / 締切 2026-05-14 / ボール: さわらび会様</div>
+          </div>
+          <span class="badge bg-rose-200 text-rose-800">+10日 超過</span>
+        </div>
+        <div class="flex justify-between items-start">
+          <div>
+            <div class="font-semibold text-rose-900">OneStream中川さん API確認</div>
+            <div class="text-sm text-rose-700">5/23 DM送信から24時間経過 / ボール: 中川直樹さん</div>
+          </div>
+          <span class="badge bg-amber-200 text-amber-800">フォロー判断</span>
+        </div>
       </div>
-      <div class="bg-white rounded-xl shadow-sm p-4 border-l-4 border-emerald-500">
-        <div class="font-semibold">マナビバ校(福岡)</div>
-        <div class="text-sm text-slate-600 mt-1">リアライフ 6名契約 (7/16スタート)</div>
-        <div class="text-xs text-slate-400 mt-2">2026-05-22</div>
+
+      <!-- Channel cards -->
+      <div class="space-y-3">
+
+        <details class="bg-white rounded-lg overflow-hidden" open>
+          <summary class="px-4 py-3 cursor-pointer font-semibold text-sm flex justify-between items-center">
+            <span>#ホリエモンai学校株式会社_事例のプロ <span class="text-slate-400 font-normal">(suiseihq)</span></span>
+            <span class="badge bg-emerald-100 text-emerald-700">draft-mode-active</span>
+          </summary>
+          <div class="divide-y divide-slate-100 text-sm">
+            <div class="px-4 py-3 flex justify-between gap-3"><div class="flex-1"><div class="font-medium">マナビバ様 — 原稿確認＋写真要否確認</div><div class="text-xs text-slate-500 mt-1">ボール: 佐藤真希さん</div></div><span class="badge bg-amber-100 text-amber-700">waiting</span></div>
+            <div class="px-4 py-3 flex justify-between gap-3"><div class="flex-1"><div class="font-medium">マシュマロの樹様 — インタビュー日程調整</div><div class="text-xs text-slate-500 mt-1">ボール: 佐藤真希さん</div></div><span class="badge bg-blue-100 text-blue-700">in_progress</span></div>
+            <div class="px-4 py-3 flex justify-between gap-3"><div class="flex-1"><div class="font-medium">ミックス様 — 初稿フィードバック待ち</div><div class="text-xs text-slate-500 mt-1">締切 2026-05-15 / ボール: ミックス様</div></div><span class="badge bg-rose-100 text-rose-700">overdue</span></div>
+            <div class="px-4 py-3 flex justify-between gap-3"><div class="flex-1"><div class="font-medium">さわらび会様 — 初稿フィードバック待ち</div><div class="text-xs text-slate-500 mt-1">締切 2026-05-14 / ボール: さわらび会様</div></div><span class="badge bg-rose-100 text-rose-700">overdue</span></div>
+            <div class="px-4 py-3 flex justify-between gap-3"><div class="flex-1"><div class="font-medium">Sky Creation様 — 確定済3社+新規見繕い1社</div><div class="text-xs text-slate-500 mt-1">ボール: 佐藤真希さん</div></div><span class="badge bg-blue-100 text-blue-700">in_progress</span></div>
+          </div>
+        </details>
+
+        <details class="bg-white rounded-lg overflow-hidden">
+          <summary class="px-4 py-3 cursor-pointer font-semibold text-sm flex justify-between items-center">
+            <span>#ホリエモンai学校様_onestream <span class="text-slate-400 font-normal">(rootteams)</span></span>
+            <span class="badge bg-blue-100 text-blue-700">watch</span>
+          </summary>
+          <div class="divide-y divide-slate-100 text-sm">
+            <div class="px-4 py-3 flex justify-between gap-3"><div class="flex-1"><div class="font-medium">社員ワンストアクセス＆疑問抽出</div><div class="text-xs text-slate-500 mt-1">締切 2026-05-29 / ボール: OneStream社員全員</div></div><span class="badge bg-blue-100 text-blue-700">in_progress</span></div>
+            <div class="px-4 py-3 flex justify-between gap-3"><div class="flex-1"><div class="font-medium">動画アップロードエラー対応</div><div class="text-xs text-slate-500 mt-1">ボール: OneStream開発側</div></div><span class="badge bg-amber-100 text-amber-700">waiting</span></div>
+            <div class="px-4 py-3 flex justify-between gap-3"><div class="flex-1"><div class="font-medium">OneStream Ver.2 実装</div><div class="text-xs text-slate-500 mt-1">締切 2026-06-30 / ボール: OneStream開発側</div></div><span class="badge bg-blue-100 text-blue-700">in_progress</span></div>
+            <div class="px-4 py-3 flex justify-between gap-3"><div class="flex-1"><div class="font-medium">ThanksPage/リダイレクト機能要望</div><div class="text-xs text-slate-500 mt-1">ボール: OneStream開発側</div></div><span class="badge bg-amber-100 text-amber-700">waiting</span></div>
+            <div class="px-4 py-3 flex justify-between gap-3"><div class="flex-1"><div class="font-medium">GAS雛形 API仕様 3点確認</div><div class="text-xs text-slate-500 mt-1">ボール: 中川直樹さん (5/23 DM済)</div></div><span class="badge bg-rose-100 text-rose-700">フォロー判断</span></div>
+          </div>
+        </details>
+
+        <details class="bg-white rounded-lg overflow-hidden">
+          <summary class="px-4 py-3 cursor-pointer font-semibold text-sm flex justify-between items-center">
+            <span>#p-fc-ai学校 <span class="text-slate-400 font-normal">(selfworkjp)</span></span>
+            <span class="badge bg-blue-100 text-blue-700">watch</span>
+          </summary>
+          <div class="divide-y divide-slate-100 text-sm">
+            <div class="px-4 py-3 flex justify-between gap-3"><div class="flex-1"><div class="font-medium">IPT校 次回MTG日程確定</div><div class="text-xs text-slate-500 mt-1">ボール: 荒木社長</div></div><span class="badge bg-amber-100 text-amber-700">waiting</span></div>
+            <div class="px-4 py-3 flex justify-between gap-3"><div class="flex-1"><div class="font-medium">AP Partners校 X命名規則対応</div><div class="text-xs text-slate-500 mt-1">ボール: 伊藤大介さん</div></div><span class="badge bg-blue-100 text-blue-700">in_progress</span></div>
+            <div class="px-4 py-3 flex justify-between gap-3"><div class="flex-1"><div class="font-medium">AP Partners校 講義動画 改善要望</div><div class="text-xs text-slate-500 mt-1">ボール: 大島空良さん→講義制作チーム</div></div><span class="badge bg-blue-100 text-blue-700">in_progress</span></div>
+            <div class="px-4 py-3 flex justify-between gap-3"><div class="flex-1"><div class="font-medium">GKLINE校 商工会議所WS+GitHub講座</div><div class="text-xs text-slate-500 mt-1">ボール: 須佐恵マリーさん</div></div><span class="badge bg-blue-100 text-blue-700">in_progress</span></div>
+            <div class="px-4 py-3 flex justify-between gap-3"><div class="flex-1"><div class="font-medium">クリエイターズアカデミー校 LP+X開設</div><div class="text-xs text-slate-500 mt-1">ボール: 市川拓弘さん</div></div><span class="badge bg-blue-100 text-blue-700">in_progress</span></div>
+          </div>
+        </details>
+
+        <details class="bg-white rounded-lg overflow-hidden">
+          <summary class="px-4 py-3 cursor-pointer font-semibold text-sm flex justify-between items-center">
+            <span>初回未スキャン 9ch <span class="text-slate-400 font-normal">(次回cronで自動取得)</span></span>
+            <span class="badge bg-slate-200 text-slate-700">pending</span>
+          </summary>
+          <div class="px-4 py-3 grid md:grid-cols-3 gap-2 text-sm">
+            <div>p-丸投げ運営</div>
+            <div>n-tel-horiemonai</div>
+            <div>n-ai学校営業mtg予約</div>
+            <div>ex_インクル_ai学校</div>
+            <div>guest-pivot様-ホリエモンai学校</div>
+            <div>collab-spir様xホリエモンai学校</div>
+            <div>credoclinic_ホリエモンai丸投げ受講</div>
+            <div>guest-ベンチャー広報様_ai学校</div>
+            <div>with-horiemonai</div>
+          </div>
+        </details>
+
       </div>
-      <div class="bg-white rounded-xl shadow-sm p-4 border-l-4 border-emerald-500">
-        <div class="font-semibold">ACG校(介護)</div>
-        <div class="text-sm text-slate-600 mt-1">実受講者数104名で確定(従来400名と誤記)</div>
-        <div class="text-xs text-slate-400 mt-2">2026-05-22</div>
+
+      <!-- Wins -->
+      <h3 class="font-bold mb-2 mt-4 flex items-center gap-2">
+        <span class="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded text-xs">WINS</span>
+        今週の勝ち
+      </h3>
+      <div class="grid md:grid-cols-3 gap-3">
+        <div class="bg-white rounded-lg p-3 border-l-4 border-emerald-500">
+          <div class="font-semibold text-sm">LIFEFUND校</div>
+          <div class="text-xs text-slate-600 mt-1">大岡成光建築事務所 6名 7/1スタート決定</div>
+        </div>
+        <div class="bg-white rounded-lg p-3 border-l-4 border-emerald-500">
+          <div class="font-semibold text-sm">マナビバ校(福岡)</div>
+          <div class="text-xs text-slate-600 mt-1">リアライフ 6名契約 (7/16スタート)</div>
+        </div>
+        <div class="bg-white rounded-lg p-3 border-l-4 border-emerald-500">
+          <div class="font-semibold text-sm">ACG校(介護)</div>
+          <div class="text-xs text-slate-600 mt-1">実受講者数104名で確定</div>
+        </div>
       </div>
     </div>
-  </section>
-
-  <!-- Pending scan -->
-  <section class="mb-8">
-    <h2 class="text-lg font-bold mb-3">初回未スキャン チャンネル <span class="text-sm text-slate-400 font-normal">（次回cronで自動取得）</span></h2>
-    <div class="bg-white rounded-xl shadow-sm p-4">
-      <div class="grid md:grid-cols-3 gap-2 text-sm">
-        <div class="flex items-center"><span class="badge bg-slate-200 text-slate-700 mr-2">high</span>p-丸投げ運営</div>
-        <div class="flex items-center"><span class="badge bg-slate-200 text-slate-700 mr-2">med</span>n-tel-horiemonai</div>
-        <div class="flex items-center"><span class="badge bg-slate-200 text-slate-700 mr-2">med</span>n-ai学校営業mtg予約</div>
-        <div class="flex items-center"><span class="badge bg-slate-200 text-slate-700 mr-2">med</span>ex_インクル_ai学校</div>
-        <div class="flex items-center"><span class="badge bg-slate-200 text-slate-700 mr-2">med</span>guest-pivot様-ホリエモンai学校</div>
-        <div class="flex items-center"><span class="badge bg-slate-200 text-slate-700 mr-2">med</span>collab-spir様xホリエモンai学校</div>
-        <div class="flex items-center"><span class="badge bg-slate-200 text-slate-700 mr-2">med</span>credoclinic_ホリエモンai丸投げ受講_250316</div>
-        <div class="flex items-center"><span class="badge bg-slate-200 text-slate-700 mr-2">med</span>guest-ベンチャー広報様_ai学校</div>
-        <div class="flex items-center"><span class="badge bg-slate-200 text-slate-700 mr-2">low</span>with-horiemonai</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Automation log -->
-  <section class="mb-8">
-    <h2 class="text-lg font-bold mb-3">本日の自動化アクションログ</h2>
-    <div class="bg-white rounded-xl shadow-sm divide-y divide-slate-100">
-      <div class="px-5 py-3 flex justify-between text-sm">
-        <div>Slack横断スキャン基盤を構築 (12chの台帳化＆主要3ch初回スキャン完了)</div>
-        <span class="text-slate-400 text-xs">14:38 JST</span>
-      </div>
-      <div class="px-5 py-3 flex justify-between text-sm">
-        <div>公開ダッシュボード(GitHub Pages) を初期構築 → imai-design/horiemon-ai-ops-board</div>
-        <span class="text-slate-400 text-xs">14:35 JST</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- Human review queue -->
-  <section class="mb-8">
-    <h2 class="text-lg font-bold mb-3 flex items-center gap-2">
-      <span class="bg-amber-100 text-amber-700 px-2 py-0.5 rounded text-xs">REVIEW</span>
-      人間の判断待ちキュー
-    </h2>
-    <ul class="bg-white rounded-xl shadow-sm p-5 space-y-2 list-disc list-inside text-sm">
-      <li>ミックス様/さわらび会様 (5/14-15締切超過)：再リマインド送るか、佐藤さん経由で確認するか判断要</li>
-      <li>OneStream中川さんへのリマインド: 5/23送信から24時間経過。明日24時間後に再フォロー判断</li>
-    </ul>
   </section>
 
 </main>
@@ -333,11 +467,10 @@
     <div class="flex flex-wrap justify-between items-center gap-2">
       <div>
         <strong class="text-slate-200">運用ルール:</strong>
-        Slackへの送信はすべてドラフト保存 (人間の最終承認必須) / 自動送信は禁止
+        毎日 朝 08:07 JST に全プロジェクトを自動巡回・更新 / Slack送信はドラフト保存のみ
       </div>
       <div>
-        毎日 朝 08:07 JST に自動更新 ・
-        <a href="https://github.com/imai-design/horiemon-ai-ops-board" class="underline text-slate-200">Source</a>
+        <a href="https://github.com/imai-design/horiemon-ai-ops-board" class="underline text-slate-200">Source ↗</a>
       </div>
     </div>
   </div>
